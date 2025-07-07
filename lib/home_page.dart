@@ -21,8 +21,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('Inicio'),
-        backgroundColor: Color(0xFFCCFF00),
+        middle: Text(
+          'Inicio',
+          style: TextStyle(
+            color: CupertinoColors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        backgroundColor: Color(0xFF2E7D32), // Verde más oscuro y prominente
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFF1B5E20),
+            width: 1.0,
+          ),
+        ),
       ),
       child: Center(
         child: Text(
