@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'home_page.dart';
+import 'screens/home_page.dart';
+import 'screens/loading_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,7 +12,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: LoadingPage(),
     );
   }
 }
