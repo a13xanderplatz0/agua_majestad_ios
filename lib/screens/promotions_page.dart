@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart_provider.dart';
+import '../models/product_model.dart';
 
 class PromotionsPage extends StatefulWidget {
   const PromotionsPage({super.key});
@@ -721,6 +724,16 @@ class _PromotionsPageState extends State<PromotionsPage> with TickerProviderStat
   }
 
   void _addToCart(Map<String, dynamic> promotion) {
+    final cart = Provider.of<CartProvider>(context, listen: false);
+    final product = ProductModel(
+      id: '${promotion['brand']}_${promotion['size']}',
+      name: '${promotion['brand']} ${promotion['size']}',
+      desc: 'Bidón de agua pura',
+      price: promotion['discountPrice'] ?? 0.0,
+      image: '', // Puedes agregar una imagen real si la tienes
+      color: (promotion['color'] as Color).value,
+    );
+    cart.add(product);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${promotion['brand']} ${promotion['size']} agregado al carrito'),
@@ -732,6 +745,16 @@ class _PromotionsPageState extends State<PromotionsPage> with TickerProviderStat
   }
 
   void _addComboToCart(Map<String, dynamic> combo) {
+    final cart = Provider.of<CartProvider>(context, listen: false);
+    final product = ProductModel(
+      id: combo['title'],
+      name: combo['title'],
+      desc: combo['description'],
+      price: combo['discountPrice'] ?? 0.0,
+      image: '', // Puedes agregar una imagen real si la tienes
+      color: Colors.orange.value,
+    );
+    cart.add(product);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${combo['title']} agregado al carrito'),

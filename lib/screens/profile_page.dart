@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
         slivers: [
           // Header con gradiente
           SliverAppBar(
-            expandedHeight: screenHeight * 0.25,
+            expandedHeight: screenHeight * 0.32, // Más alto para evitar overflow
             floating: false,
             pinned: true,
             backgroundColor: const Color(0xFF0066CC),
@@ -33,80 +33,80 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 child: SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Avatar con efecto glassmorphism
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                            width: 2,
-                          ),
-                        ),
-                        child: const CircleAvatar(
-                          radius: 45,
-                          backgroundColor: Colors.white,
-                          child: Icon(
-                            Icons.person_rounded,
-                            size: 45,
-                            color: Color(0xFF0066CC),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Información del usuario
-                      Text(
-                        'Usuario Ejemplo',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'usuario@ejemplo.com',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.035,
-                          color: Colors.white70,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      
-                      // Badge de cliente
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white.withOpacity(0.3)),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star_rounded,
-                              color: Colors.amber,
-                              size: 16,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Avatar con efecto glassmorphism
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.3),
+                              width: 2,
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Cliente Premium',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenWidth * 0.03,
-                                fontWeight: FontWeight.w600,
+                          ),
+                          child: const CircleAvatar(
+                            radius: 45,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.person_rounded,
+                              size: 45,
+                              color: Color(0xFF0066CC),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Información del usuario
+                        Text(
+                          'Usuario Ejemplo',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.08, // Más pequeño
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'usuario@ejemplo.com',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.035,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        // Badge de cliente
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.white.withOpacity(0.3)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.star_rounded,
+                                color: Colors.amber,
+                                size: 16,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 4),
+                              Text(
+                                'Cliente Premium',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.03,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

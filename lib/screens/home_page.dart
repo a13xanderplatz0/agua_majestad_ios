@@ -4,6 +4,9 @@ import 'profile_page.dart';
 import 'orders_page.dart';
 import 'promotions_page.dart';
 import 'cart_page.dart';
+import 'package:provider/provider.dart';
+import '../models/product_model.dart';
+import '../providers/cart_provider.dart';
 
 // Widget principal del Home con navegación inferior
 class HomePage extends StatefulWidget {
@@ -67,6 +70,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildNavItem(IconData icon, String label, int index) {
     final isSelected = _selectedIndex == index;
+    int cartCount = 0;
+    if (label == 'Carrito') {
+      cartCount = context.watch<CartProvider>().count;
+    }
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: AnimatedContainer(
@@ -79,10 +86,36 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? const Color(0xFF0066CC) : Colors.grey,
-              size: 24,
+            Stack(
+              children: [
+                Icon(
+                  icon,
+                  color: isSelected ? const Color(0xFF0066CC) : Colors.grey,
+                  size: 24,
+                ),
+                if (label == 'Carrito' && cartCount > 0)
+                  Positioned(
+                    right: -2,
+                    top: -2,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                      child: Text(
+                        '$cartCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 4),
             Text(
@@ -374,7 +407,7 @@ class HomeContent extends StatelessWidget {
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     final product = products[index];
-                    return _buildProductCardCompact(product, screenWidth);
+                    return _buildProductCardCompact(context, product, screenWidth);
                   },
                 ),
                 
@@ -511,7 +544,7 @@ class HomeContent extends StatelessWidget {
   }
 
   // Tarjeta de producto compacta y moderna
-  Widget _buildProductCardCompact(Map<String, dynamic> product, double screenWidth) {
+  Widget _buildProductCardCompact(BuildContext context, Map<String, dynamic> product, double screenWidth) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -612,52 +645,24 @@ class HomeContent extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.add_rounded, size: 15),
                 label: const Text('Agregar', style: TextStyle(fontSize: 11)),
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Widget del carrito actualizado
-class CartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        title: const Text('Carrito'),
-        backgroundColor: const Color(0xFF0066CC),
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.shopping_cart_rounded,
-              size: 80,
-              color: Colors.grey,
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Tu carrito está vacío',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Agrega algunos productos para comenzar',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+                onPressed: () {
+                  final cart = Provider.of<CartProvider>(context, listen: false);
+                  cart.add(ProductModel(
+                    id: product['name'],
+                    name: product['name'],
+                    desc: product['desc'],
+                    price: double.tryParse(product['price'].replaceAll('S/', '').replaceAll(',', '.').trim()) ?? 0.0,
+                    image: product['image'],
+                    color: (product['color'] as Color).value,
+                    quantity: 1, // <-- ¡Agregado!
+                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${product['name']} agregado al carrito'),
+                      duration: const Duration(milliseconds: 900),
+                    ),
+                  );
+                },
               ),
             ),
           ],
